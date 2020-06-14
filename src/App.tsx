@@ -1,7 +1,14 @@
 import React from "react";
+import { RecoilRoot } from "recoil";
+
+import Nodes from "./components/Nodes";
 
 const App = () => {
-  return <div>App created succesfully.</div>;
+  return (
+    <RecoilRoot>
+      <Nodes></Nodes>
+    </RecoilRoot>
+  );
 };
 
 export default App;

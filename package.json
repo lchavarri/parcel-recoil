@@ -9,10 +9,14 @@
   "dependencies": {
     "@types/react": "^16.9.36",
     "@types/react-dom": "^16.9.8",
+    "@types/recoil": "^0.0.1",
     "parcel": "^1.12.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "recoil": "^0.0.8",
     "typescript": "^3.9.5"
-  }
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
 }
