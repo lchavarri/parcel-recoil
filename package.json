@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "parcel serve src/index.html --port 3000"
+    "dev": "parcel serve src/index.html --port 3000",
+    "tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@types/react": "^16.9.36",
