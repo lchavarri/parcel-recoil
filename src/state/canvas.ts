@@ -1,18 +1,21 @@
-import { atom, selector } from "recoil";
-import { Canvas } from "../types";
+import { atom } from "recoil";
+import { Canvas, Dictionary, NodeModel, Port } from "../types";
 
-export const canvas = atom<Canvas>({
+export const canvasState = atom<Canvas>({
   key: "canvas",
   default: {
+    name: "",
     ports: {},
     nodes: {},
   },
 });
 
-export const nodes = selector({
+export const nodesState = atom<Dictionary<NodeModel>>({
   key: "nodes",
-  get: ({ get }) => {
-    const { nodes } = get(canvas);
-    return nodes;
-  },
+  default: {},
+});
+
+export const portsState = atom<Dictionary<Port>>({
+  key: "ports",
+  default: {},
 });
