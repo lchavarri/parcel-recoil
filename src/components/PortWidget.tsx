@@ -14,9 +14,10 @@ const PortWidget = ({ port }: Props) => {
   const term = useRecoilValue(searchTermState).toLowerCase();
 
   const match =
-    (term.length > 0 &&
-      (id.toLowerCase() === term || type.toLowerCase() === term)) ||
-    name.toLowerCase().includes(term) ? (
+    term.length > 0 &&
+    (id.toLowerCase() === term ||
+      type.toLowerCase() === term ||
+      name.toLowerCase().includes(term)) ? (
       <div>match</div>
     ) : null;
 
