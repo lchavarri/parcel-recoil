@@ -1,9 +1,11 @@
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { NodeModel, Port, Dict } from "../types";
+import { NodeModel, Port } from "../types";
 import { nodePortsQuery, portsState, nodesState } from "../state/canvas";
 import PortWidget from "./PortWidget";
+import { createPort } from "../services/canvasService";
+import { addPortToNode, addPorts } from "../state/canvas.reducer";
 
 type Props = {
   node: NodeModel;
@@ -14,28 +16,10 @@ const NodeWidget = ({ node }: Props) => {
   const setNodes = useSetRecoilState(nodesState);
   const setPorts = useSetRecoilState(portsState);
 
-  const handleAdd = () => {
-    const port = {
-      id: "5",
-      name: "Port Number Five",
-      type: "boolean",
-    };
-
-    setNodes((n: Dict<NodeModel>) => ({
-      ...n,
-      [node.id]: {
-        ...node,
-        ports: {
-          ...node.ports,
-          [port.id]: port.id,
-        },
-      },
-    }));
-
-    setPorts((p: Dict<Port>) => ({
-      ...p,
-      [port.id]: port,
-    }));
+  const handleAdd = async () => {
+    const port = await createPort();
+    setNodes(addPortToNode(port, node.id));
+    setPorts(addPorts({ [port.id]: port }));
   };
 
   return (

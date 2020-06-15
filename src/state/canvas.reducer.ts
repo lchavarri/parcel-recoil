@@ -29,3 +29,16 @@ export const addPorts = (newPorts: Dict<Port>) => (
   ...p,
   ...newPorts,
 });
+
+export const addPortToNode = (port: Port, nodeId: string) => (
+  n: Dict<NodeModel>
+) => ({
+  ...n,
+  [nodeId]: {
+    ...n[nodeId],
+    ports: {
+      ...n[nodeId].ports,
+      [port.id]: port.id,
+    },
+  },
+});

@@ -32,10 +32,10 @@ export const fetchCanvas = async (): Promise<DBCanvas> => {
 };
 
 export const createNode = async (): Promise<DBNode> => {
-  await mockDelay(500);
+  await mockDelay(100);
   return {
-    id: "3",
-    name: "Node Three",
+    id: Math.ceil(Math.random() * 100).toString(),
+    name: "New Node",
     ports: {
       p4: {
         id: "p4",
@@ -43,6 +43,15 @@ export const createNode = async (): Promise<DBNode> => {
         type: "string",
       },
     },
+  };
+};
+
+export const createPort = async (): Promise<Port> => {
+  await mockDelay(100);
+  return {
+    id: "p" + Math.ceil(Math.random() * 100),
+    name: "New Port",
+    type: "string",
   };
 };
 
