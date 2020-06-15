@@ -1,18 +1,17 @@
 import React from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
-import { NodeModel, Port } from "../types";
-import { nodePortsQuery, portsState, nodePortsRel } from "../state/canvas";
-import PortWidget from "./PortWidget";
+import { NodeModel } from "../types";
+import { portsState, nodePortsRel } from "../state/canvas";
 import { createPort } from "../services/canvasService";
 import { addNodeRel, addPorts } from "../state/canvas.reducer";
+import NodePorts from "./NodePorts";
 
 type Props = {
   node: NodeModel;
 };
 
 const NodeWidget = ({ node }: Props) => {
-  const ports: Port[] = useRecoilValue(nodePortsQuery(node.id));
   const setNodesRel = useSetRecoilState(nodePortsRel);
   const setPorts = useSetRecoilState(portsState);
 
@@ -27,12 +26,8 @@ const NodeWidget = ({ node }: Props) => {
       <h3>
         {node.id}-{node.name}
       </h3>
-      <div>
-        {ports.map((p) => (
-          <PortWidget key={p.id} port={p}></PortWidget>
-        ))}
-      </div>
       <button onClick={handleAdd}>Add Port</button>
+      <NodePorts nodeId={node.id}></NodePorts>
     </div>
   );
 };
