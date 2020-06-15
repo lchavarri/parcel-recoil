@@ -5,7 +5,6 @@ export const canvasState = atom<Canvas>({
   key: "canvas",
   default: {
     name: "",
-    nodes: {},
   },
 });
 
@@ -19,8 +18,16 @@ export const portsState = atom<Dict<Port>>({
   default: {},
 });
 
+export const nodePortsRel = atom<Dict<string[]>>({
+  key: "nodePortsRel",
+  default: {},
+});
+
 export const nodePortsQuery = selectorFamily({
   key: "nodePorts",
-  get: (portIds: string[]) => ({ get }): Port[] =>
-    Object.values(get(portsState)).filter((p: Port) => portIds.includes(p.id)),
+  get: (nodeId: string) => ({ get }): Port[] => {
+    const ports = get(portsState);
+    const rels = get(nodePortsRel)[nodeId] || [];
+    return rels.filter((id) => !!ports[id]).map((id) => ports[id]);
+  },
 });

@@ -7,8 +7,8 @@ import Search from "./components/Search";
 const App = () => {
   return (
     <RecoilRoot>
-      <Canvas></Canvas>
       <Search></Search>
+      <Canvas></Canvas>
     </RecoilRoot>
   );
 };

@@ -1,13 +1,5 @@
-import { Canvas, Dict, NodeModel, Port, DBNode } from "../types";
-import { mapKeys } from "../services/utils";
-
-export const addNodeToCanvas = (nodeId: string) => (c: Canvas): Canvas => ({
-  ...c,
-  nodes: {
-    ...c.nodes,
-    [nodeId]: nodeId,
-  },
-});
+import { Dict, NodeModel, Port, DBNode } from "../types";
+import { extendDict } from "../services/utils";
 
 export const addDBNode = (dbNode: DBNode) => (
   n: Dict<NodeModel>
@@ -16,12 +8,12 @@ export const addDBNode = (dbNode: DBNode) => (
   [dbNode.id]: {
     ...n[dbNode.id],
     ...dbNode,
-    ports: {
-      ...(n[dbNode.id]?.ports || {}),
-      ...mapKeys(dbNode.ports),
-    },
   },
 });
+
+export const addDBNodeRel = (dbNode: DBNode) => (
+  r: Dict<string[]>
+): Dict<string[]> => extendDict(r, { [dbNode.id]: Object.keys(dbNode.ports) });
 
 export const addPorts = (newPorts: Dict<Port>) => (
   p: Dict<Port>
@@ -30,15 +22,9 @@ export const addPorts = (newPorts: Dict<Port>) => (
   ...newPorts,
 });
 
-export const addPortToNode = (port: Port, nodeId: string) => (
-  n: Dict<NodeModel>
+export const addNodeRel = (nodeId: string, portId: string) => (
+  rels: Dict<string[]>
 ) => ({
-  ...n,
-  [nodeId]: {
-    ...n[nodeId],
-    ports: {
-      ...n[nodeId].ports,
-      [port.id]: port.id,
-    },
-  },
+  ...rels,
+  [nodeId]: [...rels[nodeId], portId],
 });

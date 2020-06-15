@@ -15,13 +15,11 @@ export type DBNode = {
 
 export type Canvas = {
   name: string;
-  nodes?: Dict<string>;
 };
 
 export type NodeModel = {
   id: string;
   name: string;
-  ports?: Dict<string>;
 };
 
 export type Port = {

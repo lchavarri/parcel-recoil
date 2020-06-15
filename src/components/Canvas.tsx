@@ -6,14 +6,19 @@ import {
   parseDBCanvas,
   createNode,
 } from "../services/canvasService";
-import { canvasState, nodesState, portsState } from "../state/canvas";
-import { addNodeToCanvas, addPorts, addDBNode } from "../state/canvas.reducer";
-import { NodeModel } from "../types";
-import NodeWidget from "./NodeWidget";
+import {
+  canvasState,
+  nodesState,
+  portsState,
+  nodePortsRel,
+} from "../state/canvas";
+import { addPorts, addDBNode, addDBNodeRel } from "../state/canvas.reducer";
+import Nodes from "./Nodes";
 
 const Canvas = () => {
   const [canvas, setCanvas] = useRecoilState(canvasState);
-  const [nodes, setNodes] = useRecoilState(nodesState);
+  const setNodes = useSetRecoilState(nodesState);
+  const setNodesRel = useSetRecoilState(nodePortsRel);
   const setPorts = useSetRecoilState(portsState);
 
   useEffect(() => {
@@ -22,9 +27,10 @@ const Canvas = () => {
         console.error(err);
       });
       if (dbCanvas) {
-        const [canvas, nodes, ports] = parseDBCanvas(dbCanvas);
+        const [canvas, nodes, nodesRel, ports] = parseDBCanvas(dbCanvas);
         setCanvas(canvas);
         setNodes(nodes);
+        setNodesRel(nodesRel);
         setPorts(ports);
       }
     }
@@ -34,20 +40,16 @@ const Canvas = () => {
 
   const handleAdd = async () => {
     const dbNode = await createNode();
-    setCanvas(addNodeToCanvas(dbNode.id));
     setNodes(addDBNode(dbNode));
+    setNodesRel(addDBNodeRel(dbNode));
     setPorts(addPorts(dbNode.ports));
   };
 
   return (
     <>
       <h1>{canvas.name}</h1>
-
-      {Object.values(nodes).map((node: NodeModel) => (
-        <NodeWidget key={node.id} node={node}></NodeWidget>
-      ))}
-
       <button onClick={handleAdd}>Add Node</button>
+      <Nodes></Nodes>
     </>
   );
 };

@@ -2,23 +2,23 @@ import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { NodeModel, Port } from "../types";
-import { nodePortsQuery, portsState, nodesState } from "../state/canvas";
+import { nodePortsQuery, portsState, nodePortsRel } from "../state/canvas";
 import PortWidget from "./PortWidget";
 import { createPort } from "../services/canvasService";
-import { addPortToNode, addPorts } from "../state/canvas.reducer";
+import { addNodeRel, addPorts } from "../state/canvas.reducer";
 
 type Props = {
   node: NodeModel;
 };
 
 const NodeWidget = ({ node }: Props) => {
-  const ports: Port[] = useRecoilValue(nodePortsQuery(Object.keys(node.ports)));
-  const setNodes = useSetRecoilState(nodesState);
+  const ports: Port[] = useRecoilValue(nodePortsQuery(node.id));
+  const setNodesRel = useSetRecoilState(nodePortsRel);
   const setPorts = useSetRecoilState(portsState);
 
   const handleAdd = async () => {
     const port = await createPort();
-    setNodes(addPortToNode(port, node.id));
+    setNodesRel(addNodeRel(node.id, port.id));
     setPorts(addPorts({ [port.id]: port }));
   };
 

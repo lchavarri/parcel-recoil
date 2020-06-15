@@ -1,4 +1,5 @@
 import { DBCanvas, NodeModel, Dict, Canvas, Port, DBNode } from "../types";
+import { extendDict } from "./utils";
 
 const mockDelay = (millis: number): Promise<any> => {
   return new Promise((resolve) => {
@@ -57,23 +58,18 @@ export const createPort = async (): Promise<Port> => {
 
 export const parseDBCanvas = (
   dbCanvas: DBCanvas
-): [Canvas, Dict<NodeModel>, Dict<Port>] => {
-  const canvas: Canvas = { ...dbCanvas, nodes: {} };
-  const nodes: Dict<NodeModel> = {};
-  const ports: Dict<Port> = {};
+): [Canvas, Dict<NodeModel>, Dict<string[]>, Dict<Port>] => {
+  let nodeDict: Dict<NodeModel> = {};
+  let nodeRel: Dict<string[]> = {};
+  let portDict: Dict<Port> = {};
 
-  for (let nodeId of Object.keys(dbCanvas.nodes)) {
-    canvas.nodes[nodeId] = nodeId;
+  const { nodes, ...canvas } = dbCanvas;
+  Object.values(nodes).forEach((dbNode: DBNode) => {
+    const { ports, ...node } = dbNode;
+    nodeDict[node.id] = node;
+    nodeRel[node.id] = Object.keys(ports);
+    portDict = extendDict(portDict, ports);
+  });
 
-    const dbNode = dbCanvas.nodes[nodeId];
-    nodes[nodeId] = { ...dbNode, ports: {} };
-
-    for (let portId of Object.keys(dbNode.ports)) {
-      nodes[nodeId].ports[portId] = portId;
-
-      ports[portId] = { ...dbNode.ports[portId] };
-    }
-  }
-
-  return [canvas, nodes, ports];
+  return [canvas, nodeDict, nodeRel, portDict];
 };
