@@ -1,19 +1,20 @@
 import React, { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import {
   fetchCanvas,
   parseDBCanvas,
-  parseDBNode,
+  createNode,
 } from "../services/canvasService";
 import { canvasState, nodesState, portsState } from "../state/canvas";
-import { NodeModel, DBNode } from "../types";
+import { addNodeToCanvas, addPorts, addDBNode } from "../state/canvas.reducer";
+import { NodeModel } from "../types";
 import NodeWidget from "./NodeWidget";
 
 const Canvas = () => {
   const [canvas, setCanvas] = useRecoilState(canvasState);
   const [nodes, setNodes] = useRecoilState(nodesState);
-  const [ports, setPorts] = useRecoilState(portsState);
+  const setPorts = useSetRecoilState(portsState);
 
   useEffect(() => {
     async function init() {
@@ -31,44 +32,17 @@ const Canvas = () => {
     init();
   }, []);
 
-  const handleAdd = (ev: React.MouseEvent) => {
-    const dbNode: DBNode = {
-      id: "3",
-      name: "Node Three",
-      ports: {
-        p4: {
-          id: "p4",
-          name: "Port four",
-          type: "string",
-        },
-      },
-    };
-    const [node, nodePorts] = parseDBNode(dbNode);
-
-    setCanvas((c) => ({
-      ...c,
-      nodes: {
-        ...c.nodes,
-        [node.id]: node.id,
-      },
-      ports: {
-        ...c.ports,
-        ...node.ports,
-      },
-    }));
-    setNodes((n) => ({
-      ...n,
-      [node.id]: node,
-    }));
-    setPorts((p) => ({
-      ...p,
-      ...nodePorts,
-    }));
+  const handleAdd = async () => {
+    const dbNode = await createNode();
+    setCanvas(addNodeToCanvas(dbNode.id));
+    setNodes(addDBNode(dbNode));
+    setPorts(addPorts(dbNode.ports));
   };
 
   return (
     <>
-      <pre>{canvas.name}</pre>
+      <h1>{canvas.name}</h1>
+
       {Object.values(nodes).map((node: NodeModel) => (
         <NodeWidget key={node.id} node={node}></NodeWidget>
       ))}

@@ -1,28 +1,27 @@
-export type Dictionary<T> = {
+export type Dict<T> = {
   [s: string]: T;
 };
 
 export type DBCanvas = {
   name: string;
-  nodes: Dictionary<DBNode>;
+  nodes: Dict<DBNode>;
 };
 
 export type DBNode = {
   id: string;
   name: string;
-  ports: Dictionary<Port>;
+  ports: Dict<Port>;
 };
 
 export type Canvas = {
   name: string;
-  ports?: Dictionary<string>;
-  nodes?: Dictionary<string>;
+  nodes?: Dict<string>;
 };
 
 export type NodeModel = {
   id: string;
   name: string;
-  ports?: Dictionary<string>;
+  ports?: Dict<string>;
 };
 
 export type Port = {

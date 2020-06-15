@@ -1,48 +1,57 @@
-import {
-  DBCanvas,
-  NodeModel,
-  Dictionary,
-  Canvas,
-  Port,
-  DBNode,
-} from "../types";
+import { DBCanvas, NodeModel, Dict, Canvas, Port, DBNode } from "../types";
 
-export const fetchCanvas = (): Promise<DBCanvas> => {
+const mockDelay = (millis: number): Promise<any> => {
   return new Promise((resolve) => {
-    setTimeout(
-      () =>
-        resolve({
-          name: "Test Canvas",
-          nodes: {
-            1: {
-              id: "1",
-              name: "Node One",
-              ports: {
-                p1: {
-                  id: "p1",
-                  name: "Port One",
-                  type: "number",
-                },
-              },
-            },
-            2: {
-              id: "2",
-              name: "Node Two",
-              ports: {},
-            },
-          },
-        }),
-      600
-    );
+    setTimeout(resolve, millis);
   });
+};
+
+export const fetchCanvas = async (): Promise<DBCanvas> => {
+  await mockDelay(500);
+  return {
+    name: "Test Canvas",
+    nodes: {
+      1: {
+        id: "1",
+        name: "Node One",
+        ports: {
+          p1: {
+            id: "p1",
+            name: "Port One",
+            type: "number",
+          },
+        },
+      },
+      2: {
+        id: "2",
+        name: "Node Two",
+        ports: {},
+      },
+    },
+  };
+};
+
+export const createNode = async (): Promise<DBNode> => {
+  await mockDelay(500);
+  return {
+    id: "3",
+    name: "Node Three",
+    ports: {
+      p4: {
+        id: "p4",
+        name: "Port four",
+        type: "string",
+      },
+    },
+  };
 };
 
 export const parseDBCanvas = (
   dbCanvas: DBCanvas
-): [Canvas, Dictionary<NodeModel>, Dictionary<Port>] => {
-  const canvas: Canvas = { ...dbCanvas, nodes: {}, ports: {} };
-  const nodes: Dictionary<NodeModel> = {};
-  const ports: Dictionary<Port> = {};
+): [Canvas, Dict<NodeModel>, Dict<Port>] => {
+  const canvas: Canvas = { ...dbCanvas, nodes: {} };
+  const nodes: Dict<NodeModel> = {};
+  const ports: Dict<Port> = {};
 
   for (let nodeId of Object.keys(dbCanvas.nodes)) {
     canvas.nodes[nodeId] = nodeId;
@@ -51,7 +60,6 @@ export const parseDBCanvas = (
     nodes[nodeId] = { ...dbNode, ports: {} };
 
     for (let portId of Object.keys(dbNode.ports)) {
-      canvas.ports[portId] = portId;
       nodes[nodeId].ports[portId] = portId;
 
       ports[portId] = { ...dbNode.ports[portId] };
@@ -59,17 +67,4 @@ export const parseDBCanvas = (
   }
 
   return [canvas, nodes, ports];
-};
-
-export const parseDBNode = (dbNode: DBNode): [NodeModel, Dictionary<Port>] => {
-  const node: NodeModel = { ...dbNode, ports: {} };
-  const ports: Dictionary<Port> = {};
-
-  for (let portId of Object.keys(dbNode.ports)) {
-    node.ports[portId] = portId;
-
-    ports[portId] = { ...dbNode.ports[portId] };
-  }
-
-  return [node, ports];
 };
