@@ -22,11 +22,16 @@ const NodeWidget = ({ node }: Props) => {
   };
 
   return (
-    <div>
-      <h3>
+    <div className="node-widget">
+      <div className="node-widget-header">
         {node.id}-{node.name}
-      </h3>
-      <button onClick={handleAdd}>Add Port</button>
+        <button
+          className="node-widget-header-button button"
+          onClick={handleAdd}
+        >
+          +
+        </button>
+      </div>
       <NodePorts nodeId={node.id}></NodePorts>
     </div>
   );

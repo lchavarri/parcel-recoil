@@ -8,8 +8,12 @@ import PortWidget from "./PortWidget";
 const NodePorts = ({ nodeId }) => {
   const ports: Port[] = useRecoilValue(nodePortsQuery(nodeId));
 
+  if (!ports || !ports.length) {
+    return null;
+  }
+
   return (
-    <div>
+    <div className="node-widget-ports">
       {ports.map((p) => (
         <PortWidget key={p.id} port={p}></PortWidget>
       ))}

@@ -1,0 +1,69 @@
+$border: 2px solid #e4e4e4;
+$spacing-1: 5px;
+$spacing-2: 10px;
+$spacing-3: 15px;
+$spacing-4: 20px;
+$hit-area-1: 14px;
+$hit-area-2: 24px;
+$hit-area-3: 30px;
+
+.canvas {
+  min-width: 320px;
+  max-width: 800px;
+  background-color: #fafafa;
+  padding: $spacing-3;
+  &-header {
+    font-size: 1.2rem;
+    font-weight: 600;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &-button {
+      max-height: 30px;
+    }
+  }
+  &-nodes {
+    margin-top: $spacing-4;
+  }
+}
+
+.node-widget {
+  border: $border;
+  width: 300px;
+  height: auto;
+  font-size: 1rem;
+  background-color: white;
+  &-header {
+    padding: $spacing-1;
+    position: relative;
+    height: 24px;
+    line-height: 24px;
+    font-weight: 600;
+    &-button {
+      position: absolute;
+      top: $spacing-1;
+      right: $spacing-1;
+      height: $hit-area-2;
+      width: $hit-area-2;
+      padding: 0;
+      border: none;
+      font-size: 16px;
+    }
+  }
+  &-ports {
+    padding: $spacing-1;
+    border-top: $border;
+  }
+  & + & {
+    margin-top: $spacing-2;
+  }
+}
+
+.port-widget {
+  & + & {
+    margin-top: $spacing-1;
+  }
+}

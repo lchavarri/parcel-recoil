@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-
 import {
+  createNode,
   fetchCanvas,
   parseDBCanvas,
-  createNode,
 } from "../services/canvasService";
 import {
   canvasState,
+  nodePortsRel,
   nodesState,
   portsState,
-  nodePortsRel,
 } from "../state/canvas";
-import { addPorts, addDBNode, addDBNodeRel } from "../state/canvas.reducer";
+import { addDBNode, addDBNodeRel, addPorts } from "../state/canvas.reducer";
 import Nodes from "./Nodes";
+import "./Canvas.scss";
 
 const Canvas = () => {
   const [canvas, setCanvas] = useRecoilState(canvasState);
@@ -46,11 +46,20 @@ const Canvas = () => {
   };
 
   return (
-    <>
-      <h1>{canvas.name}</h1>
-      <button onClick={handleAdd}>Add Node</button>
-      <Nodes></Nodes>
-    </>
+    <div className="canvas">
+      <div className="canvas-header">
+        {canvas.name}
+        <button
+          className="canvas-header-button button primary"
+          onClick={handleAdd}
+        >
+          Add Node
+        </button>
+      </div>
+      <div className="canvas-nodes">
+        <Nodes></Nodes>
+      </div>
+    </div>
   );
 };
 

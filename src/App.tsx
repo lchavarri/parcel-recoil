@@ -1,6 +1,6 @@
 import React from "react";
 import { RecoilRoot } from "recoil";
-
+import "./App.scss";
 import Canvas from "./components/Canvas";
 import Search from "./components/Search";
 

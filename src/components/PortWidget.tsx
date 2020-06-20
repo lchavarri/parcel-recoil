@@ -22,7 +22,7 @@ const PortWidget = ({ port }: Props) => {
     ) : null;
 
   return (
-    <div>
+    <div className="port-widget">
       {id}-{name}-{type}
       {match}
     </div>
