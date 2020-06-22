@@ -20,11 +20,12 @@ const PortWidget = ({ port }: Props) => {
       name.toLowerCase().includes(term)) ? (
       <div>match</div>
     ) : null;
+  const hlClass = match ? "highlighted" : "";
 
   return (
-    <div className="port-widget">
-      {id}-{name}-{type}
-      {match}
+    <div className={`port-widget ${hlClass}`}>
+      <span className="port-widget-hitarea"></span>
+      {name}
     </div>
   );
 };

@@ -9,11 +9,11 @@ const Nodes = () => {
   const nodes = useRecoilValue(nodesState);
 
   return (
-    <>
+    <div className="canvas-nodes">
       {Object.values(nodes).map((node: NodeModel) => (
         <NodeWidget key={node.id} node={node}></NodeWidget>
       ))}
-    </>
+    </div>
   );
 };
 

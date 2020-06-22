@@ -21,8 +21,17 @@ $hit-area-3: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    &-actions {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
     &-button {
       max-height: 30px;
+    }
+    &-search {
+      margin-right: $spacing-2;
     }
   }
   &-nodes {
@@ -63,6 +72,19 @@ $hit-area-3: 30px;
 }
 
 .port-widget {
+  display: flex;
+  align-items: center;
+
+  &.highlighted &-hitarea {
+    background-color: #ffb74d;
+  }
+  &-hitarea {
+    width: 14px;
+    height: 14px;
+    margin-right: $spacing-1;
+    background-color: #90a4ae;
+  }
+
   & + & {
     margin-top: $spacing-1;
   }

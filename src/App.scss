@@ -28,3 +28,15 @@ body {
     }
   }
 }
+
+.form-control {
+  height: 15px;
+  padding: 5px 10px;
+  border: 2px solid #616161;
+  border-radius: 2px;
+  outline: 0;
+  color: #242424;
+  &:focus {
+    border-color: #424242;
+  }
+}

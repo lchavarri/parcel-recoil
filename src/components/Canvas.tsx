@@ -1,19 +1,15 @@
 import React, { useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import {
-  createNode,
-  fetchCanvas,
-  parseDBCanvas,
-} from "../services/canvasService";
+import { fetchCanvas, parseDBCanvas } from "../services/canvasService";
 import {
   canvasState,
   nodePortsRel,
   nodesState,
   portsState,
 } from "../state/canvas";
-import { addDBNode, addDBNodeRel, addPorts } from "../state/canvas.reducer";
-import Nodes from "./Nodes";
 import "./Canvas.scss";
+import CanvasHeader from "./CanvasHeader";
+import CanvasNodes from "./CanvasNodes";
 
 const Canvas = () => {
   const [canvas, setCanvas] = useRecoilState(canvasState);
@@ -38,27 +34,10 @@ const Canvas = () => {
     init();
   }, []);
 
-  const handleAdd = async () => {
-    const dbNode = await createNode();
-    setNodes(addDBNode(dbNode));
-    setNodesRel(addDBNodeRel(dbNode));
-    setPorts(addPorts(dbNode.ports));
-  };
-
   return (
     <div className="canvas">
-      <div className="canvas-header">
-        {canvas.name}
-        <button
-          className="canvas-header-button button primary"
-          onClick={handleAdd}
-        >
-          Add Node
-        </button>
-      </div>
-      <div className="canvas-nodes">
-        <Nodes></Nodes>
-      </div>
+      <CanvasHeader canvasName={canvas.name}></CanvasHeader>
+      <CanvasNodes></CanvasNodes>
     </div>
   );
 };
