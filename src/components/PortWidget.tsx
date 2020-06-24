@@ -6,11 +6,12 @@ import { Port } from "../types";
 import PortWidgetEditLabel from "./PortWidgetEditLabel";
 
 type Props = {
+  nodeId: string;
   portId: string;
 };
 
-const PortWidget = ({ portId }: Props) => {
-  const port: Port | undefined = useRecoilValue(portWithId(portId));
+const PortWidget = ({ nodeId, portId }: Props) => {
+  const port: Port | undefined = useRecoilValue(portWithId([nodeId, portId]));
   const term = useRecoilValue(searchTermState).toLowerCase();
 
   if (!port) {
@@ -31,7 +32,10 @@ const PortWidget = ({ portId }: Props) => {
   return (
     <div className={`port-widget ${hlClass}`}>
       <span className="port-widget-hitarea"></span>
-      <PortWidgetEditLabel portId={portId}></PortWidgetEditLabel>
+      <PortWidgetEditLabel
+        nodeId={nodeId}
+        portId={portId}
+      ></PortWidgetEditLabel>
     </div>
   );
 };

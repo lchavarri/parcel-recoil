@@ -1,56 +1,38 @@
-import { atom, selectorFamily } from "recoil";
-import { Canvas, Dict, NodeModel, Port } from "../types";
+import { atom, selector, selectorFamily } from "recoil";
+import { fetchCanvas } from "../services/canvasService";
+import { Canvas, NodeModel, Port } from "../types";
+import { upsertNodeModel, upsertPort } from "./canvas.reducer";
 
 export const canvasState = atom<Canvas>({
   key: "canvas",
-  default: {
-    name: "",
-  },
+  default: fetchCanvas(),
 });
 
-export const nodesState = atom<Dict<NodeModel>>({
+export const nodesQuery = selector<string[]>({
   key: "nodes",
-  default: {},
+  get: ({ get }) => Object.keys(get(canvasState).nodes),
 });
 
-export const portsState = atom<Dict<Port>>({
-  key: "ports",
-  default: {},
-});
-
-export const nodePortsRel = atom<Dict<string[]>>({
-  key: "nodePortsRel",
-  default: {},
-});
-
-export const nodePortsQuery = selectorFamily({
+export const nodePortsQuery = selectorFamily<string[], string>({
   key: "nodePorts",
-  get: (nodeId: string) => ({ get }): string[] => {
-    const rels = get(nodePortsRel)[nodeId] || [];
-    return Object.values(rels);
-  },
+  get: (nodeId: string) => ({ get }): string[] =>
+    Object.keys(get(nodeWithId(nodeId)).ports),
 });
 
 export const nodeWithId = selectorFamily<NodeModel, string>({
   key: "nodeWithId",
   get: (nodeId: string) => ({ get }): NodeModel | undefined =>
-    get(nodesState)[nodeId],
+    get(canvasState).nodes[nodeId],
   set: (nodeId: string) => ({ set }, updatedNode) => {
-    set(nodesState, (prevState) => ({
-      ...prevState,
-      [nodeId]: { ...prevState[nodeId], ...updatedNode },
-    }));
+    set(canvasState, upsertNodeModel(updatedNode as NodeModel));
   },
 });
 
-export const portWithId = selectorFamily<Port, string>({
+export const portWithId = selectorFamily<Port, string[]>({
   key: "portWithId",
-  get: (portId: string) => ({ get }): Port | undefined =>
-    get(portsState)[portId],
-  set: (portId: string) => ({ set }, updatedPort) => {
-    set(portsState, (prevState) => ({
-      ...prevState,
-      [portId]: { ...prevState[portId], ...updatedPort },
-    }));
+  get: ([nodeId, portId]: string[]) => ({ get }): Port | undefined =>
+    get(nodeWithId(nodeId))?.ports[portId],
+  set: ([nodeId, portId]: string[]) => ({ set }, updatedPort) => {
+    set(nodeWithId(nodeId), upsertPort(updatedPort as Port));
   },
 });

@@ -14,7 +14,7 @@ const NodePorts = ({ nodeId }) => {
   return (
     <div className="node-widget-ports">
       {ports.map((portId: string) => (
-        <PortWidget key={portId} portId={portId}></PortWidget>
+        <PortWidget key={portId} nodeId={nodeId} portId={portId}></PortWidget>
       ))}
     </div>
   );

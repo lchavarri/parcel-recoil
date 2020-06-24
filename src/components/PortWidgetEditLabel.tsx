@@ -4,11 +4,12 @@ import { useRecoilState } from "recoil";
 import { portWithId } from "../state/canvas";
 
 type Props = {
+  nodeId: string;
   portId: string;
 };
 
-const PortWidgetEditLabel = ({ portId }: Props) => {
-  const [port, setPort] = useRecoilState(portWithId(portId));
+const PortWidgetEditLabel = ({ nodeId, portId }: Props) => {
+  const [port, setPort] = useRecoilState(portWithId([nodeId, portId]));
 
   const text = useRef(port?.name || "");
 

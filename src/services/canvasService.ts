@@ -1,6 +1,5 @@
 import uuid4 from "uuid4";
-import { Canvas, DBCanvas, DBNode, Dict, NodeModel, Port } from "../types";
-import { extendDict } from "./utils";
+import { Canvas, NodeModel, Port } from "../types";
 
 const mockDelay = (millis: number): Promise<any> => {
   return new Promise((resolve) => {
@@ -8,7 +7,7 @@ const mockDelay = (millis: number): Promise<any> => {
   });
 };
 
-export const fetchCanvas = async (): Promise<DBCanvas> => {
+export const fetchCanvas = async (): Promise<Canvas> => {
   await mockDelay(500);
   return {
     name: "Test Canvas",
@@ -33,7 +32,7 @@ export const fetchCanvas = async (): Promise<DBCanvas> => {
   };
 };
 
-export const createNode = async (): Promise<DBNode> => {
+export const createNode = async (): Promise<NodeModel> => {
   await mockDelay(100);
   return {
     id: uuid4(),
@@ -49,22 +48,4 @@ export const createPort = async (): Promise<Port> => {
     name: "New Port",
     type: "string",
   };
-};
-
-export const parseDBCanvas = (
-  dbCanvas: DBCanvas
-): [Canvas, Dict<NodeModel>, Dict<string[]>, Dict<Port>] => {
-  let nodeDict: Dict<NodeModel> = {};
-  let nodeRel: Dict<string[]> = {};
-  let portDict: Dict<Port> = {};
-
-  const { nodes, ...canvas } = dbCanvas;
-  Object.values(nodes).forEach((dbNode: DBNode) => {
-    const { ports, ...node } = dbNode;
-    nodeDict[node.id] = node;
-    nodeRel[node.id] = Object.keys(ports);
-    portDict = extendDict(portDict, ports);
-  });
-
-  return [canvas, nodeDict, nodeRel, portDict];
 };
