@@ -24,4 +24,4 @@ const CanvasHeaderSearch = () => {
   );
 };
 
-export default CanvasHeaderSearch;
+export default React.memo(CanvasHeaderSearch);

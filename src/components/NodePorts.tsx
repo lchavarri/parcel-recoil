@@ -2,11 +2,10 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 
 import { nodePortsQuery } from "../state/canvas";
-import { Port } from "../types";
 import PortWidget from "./PortWidget";
 
 const NodePorts = ({ nodeId }) => {
-  const ports: Port[] = useRecoilValue(nodePortsQuery(nodeId));
+  const ports: string[] = useRecoilValue(nodePortsQuery(nodeId));
 
   if (!ports || !ports.length) {
     return null;
@@ -14,11 +13,11 @@ const NodePorts = ({ nodeId }) => {
 
   return (
     <div className="node-widget-ports">
-      {ports.map((p) => (
-        <PortWidget key={p.id} port={p}></PortWidget>
+      {ports.map((portId: string) => (
+        <PortWidget key={portId} portId={portId}></PortWidget>
       ))}
     </div>
   );
 };
 
-export default NodePorts;
+export default React.memo(NodePorts);

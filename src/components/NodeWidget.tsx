@@ -1,19 +1,22 @@
 import React from "react";
-import { useSetRecoilState } from "recoil";
-
-import { NodeModel } from "../types";
-import { portsState, nodePortsRel } from "../state/canvas";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { createPort } from "../services/canvasService";
+import { nodePortsRel, nodeWithId, portsState } from "../state/canvas";
 import { addNodeRel, addPorts } from "../state/canvas.reducer";
 import NodePorts from "./NodePorts";
 
 type Props = {
-  node: NodeModel;
+  nodeId: string;
 };
 
-const NodeWidget = ({ node }: Props) => {
+const NodeWidget = ({ nodeId }: Props) => {
+  const node = useRecoilValue(nodeWithId(nodeId));
   const setNodesRel = useSetRecoilState(nodePortsRel);
   const setPorts = useSetRecoilState(portsState);
+
+  if (!node) {
+    return null;
+  }
 
   const handleAdd = async () => {
     const port = await createPort();
@@ -37,4 +40,4 @@ const NodeWidget = ({ node }: Props) => {
   );
 };
 
-export default NodeWidget;
+export default React.memo(NodeWidget);

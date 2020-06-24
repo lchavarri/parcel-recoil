@@ -1,17 +1,22 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-
-import { Port } from "../types";
+import { portWithId } from "../state/canvas";
 import { searchTermState } from "../state/search";
+import { Port } from "../types";
 
 type Props = {
-  port: Port;
+  portId: string;
 };
 
-const PortWidget = ({ port }: Props) => {
-  const { id, name, type } = port;
-
+const PortWidget = ({ portId }: Props) => {
+  const port: Port | undefined = useRecoilValue(portWithId(portId));
   const term = useRecoilValue(searchTermState).toLowerCase();
+
+  if (!port) {
+    return null;
+  }
+
+  const { id, name, type } = port;
 
   const match =
     term.length > 0 &&
@@ -30,4 +35,4 @@ const PortWidget = ({ port }: Props) => {
   );
 };
 
-export default PortWidget;
+export default React.memo(PortWidget);

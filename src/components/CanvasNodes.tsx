@@ -1,20 +1,18 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-
 import { nodesState } from "../state/canvas";
-import { NodeModel } from "../types";
 import NodeWidget from "./NodeWidget";
 
-const Nodes = () => {
+const CanvasNodes = () => {
   const nodes = useRecoilValue(nodesState);
 
   return (
     <div className="canvas-nodes">
-      {Object.values(nodes).map((node: NodeModel) => (
-        <NodeWidget key={node.id} node={node}></NodeWidget>
+      {Object.keys(nodes).map((nodeId: string) => (
+        <NodeWidget key={nodeId} nodeId={nodeId}></NodeWidget>
       ))}
     </div>
   );
 };
 
-export default Nodes;
+export default React.memo(CanvasNodes);

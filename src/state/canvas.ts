@@ -25,9 +25,24 @@ export const nodePortsRel = atom<Dict<string[]>>({
 
 export const nodePortsQuery = selectorFamily({
   key: "nodePorts",
-  get: (nodeId: string) => ({ get }): Port[] => {
-    const ports = get(portsState);
+  get: (nodeId: string) => ({ get }): string[] => {
     const rels = get(nodePortsRel)[nodeId] || [];
-    return rels.filter((id) => !!ports[id]).map((id) => ports[id]);
+    return Object.values(rels);
+  },
+});
+
+export const nodeWithId = selectorFamily({
+  key: "nodeWithId",
+  get: (nodeId: string) => ({ get }): NodeModel | undefined => {
+    const nodes = get(nodesState);
+    return nodes[nodeId];
+  },
+});
+
+export const portWithId = selectorFamily({
+  key: "portWithId",
+  get: (portId: string) => ({ get }): Port | undefined => {
+    const ports = get(portsState);
+    return ports[portId];
   },
 });
