@@ -1,11 +1,6 @@
+@import "../SharedStyles.scss";
+
 $border: 2px solid #e4e4e4;
-$spacing-1: 5px;
-$spacing-2: 10px;
-$spacing-3: 15px;
-$spacing-4: 20px;
-$hit-area-1: 14px;
-$hit-area-2: 24px;
-$hit-area-3: 30px;
 
 .canvas {
   min-width: 320px;
@@ -51,6 +46,13 @@ $hit-area-3: 30px;
     height: 24px;
     line-height: 24px;
     font-weight: 600;
+    &-editor {
+      cursor: pointer;
+      border-bottom: 1px solid #e4e4e4;
+      &:focus {
+        outline: none;
+      }
+    }
     &-button {
       position: absolute;
       top: $spacing-1;

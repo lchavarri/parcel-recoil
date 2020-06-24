@@ -31,11 +31,15 @@ export const nodePortsQuery = selectorFamily({
   },
 });
 
-export const nodeWithId = selectorFamily({
+export const nodeWithId = selectorFamily<NodeModel, string>({
   key: "nodeWithId",
-  get: (nodeId: string) => ({ get }): NodeModel | undefined => {
-    const nodes = get(nodesState);
-    return nodes[nodeId];
+  get: (nodeId: string) => ({ get }): NodeModel | undefined =>
+    get(nodesState)[nodeId],
+  set: (nodeId: string) => ({ set }, updatedNode) => {
+    set(nodesState, (prevState) => ({
+      ...prevState,
+      [nodeId]: { ...prevState[nodeId], ...updatedNode },
+    }));
   },
 });
 

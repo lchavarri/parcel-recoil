@@ -3,13 +3,16 @@ import { extendDict } from "../services/utils";
 
 export const addDBNode = (dbNode: DBNode) => (
   n: Dict<NodeModel>
-): Dict<NodeModel> => ({
-  ...n,
-  [dbNode.id]: {
-    ...n[dbNode.id],
-    ...dbNode,
-  },
-});
+): Dict<NodeModel> => {
+  const { ports, ...node } = dbNode;
+  return {
+    ...n,
+    [node.id]: {
+      ...n[node.id],
+      ...node,
+    },
+  };
+};
 
 export const addDBNodeRel = (dbNode: DBNode) => (
   r: Dict<string[]>

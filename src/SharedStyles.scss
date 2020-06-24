@@ -1,0 +1,41 @@
+$spacing-1: 5px;
+$spacing-2: 10px;
+$spacing-3: 15px;
+$spacing-4: 20px;
+$hit-area-1: 14px;
+$hit-area-2: 24px;
+$hit-area-3: 30px;
+
+.button {
+  background: white;
+  box-shadow: none;
+  outline: none;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: #616161;
+  border: 2px solid #bdbdbd;
+  &:hover {
+    color: #424242;
+  }
+  &.primary {
+    color: #3f51b5;
+    border: 2px solid #5c6bc0;
+    &:hover {
+      color: #303f9f;
+    }
+  }
+}
+
+.form-control {
+  height: 15px;
+  padding: 5px 10px;
+  border: 2px solid #616161;
+  border-radius: 2px;
+  outline: 0;
+  color: #242424;
+  &:focus {
+    border-color: #424242;
+  }
+}

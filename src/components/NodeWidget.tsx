@@ -4,6 +4,7 @@ import { createPort } from "../services/canvasService";
 import { nodePortsRel, nodeWithId, portsState } from "../state/canvas";
 import { addNodeRel, addPorts } from "../state/canvas.reducer";
 import NodePorts from "./NodePorts";
+import NodeWidgetEditLabel from "./NodeWidgetEditLabel";
 
 type Props = {
   nodeId: string;
@@ -27,7 +28,7 @@ const NodeWidget = ({ nodeId }: Props) => {
   return (
     <div className="node-widget">
       <div className="node-widget-header">
-        {node.id}-{node.name}
+        <NodeWidgetEditLabel nodeId={nodeId}></NodeWidgetEditLabel>
         <button
           className="node-widget-header-button button"
           onClick={handleAdd}
