@@ -43,10 +43,14 @@ export const nodeWithId = selectorFamily<NodeModel, string>({
   },
 });
 
-export const portWithId = selectorFamily({
+export const portWithId = selectorFamily<Port, string>({
   key: "portWithId",
-  get: (portId: string) => ({ get }): Port | undefined => {
-    const ports = get(portsState);
-    return ports[portId];
+  get: (portId: string) => ({ get }): Port | undefined =>
+    get(portsState)[portId],
+  set: (portId: string) => ({ set }, updatedPort) => {
+    set(portsState, (prevState) => ({
+      ...prevState,
+      [portId]: { ...prevState[portId], ...updatedPort },
+    }));
   },
 });

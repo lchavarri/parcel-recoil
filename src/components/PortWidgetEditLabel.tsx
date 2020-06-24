@@ -1,16 +1,16 @@
 import React, { useRef } from "react";
 import ContentEditable from "react-contenteditable";
 import { useRecoilState } from "recoil";
-import { nodeWithId } from "../state/canvas";
+import { portWithId } from "../state/canvas";
 
 type Props = {
-  nodeId: string;
+  portId: string;
 };
 
-const NodeWidgetEditLabel = ({ nodeId }: Props) => {
-  const [node, setNode] = useRecoilState(nodeWithId(nodeId));
+const PortWidgetEditLabel = ({ portId }: Props) => {
+  const [port, setPort] = useRecoilState(portWithId(portId));
 
-  const text = useRef(node?.name || "");
+  const text = useRef(port?.name || "");
 
   const handleChange = (evt) => {
     text.current = evt.target.value.trim();
@@ -19,10 +19,10 @@ const NodeWidgetEditLabel = ({ nodeId }: Props) => {
   const handleBlur = () => {
     const name = new DOMParser().parseFromString(text.current, "text/html")
       .documentElement.textContent;
-    setNode((oldNode) => ({ ...oldNode, name }));
+    setPort((oldPort) => ({ ...oldPort, name }));
   };
 
-  if (!node) {
+  if (!port) {
     return null;
   }
 
@@ -38,4 +38,4 @@ const NodeWidgetEditLabel = ({ nodeId }: Props) => {
   );
 };
 
-export default React.memo(NodeWidgetEditLabel);
+export default React.memo(PortWidgetEditLabel);

@@ -46,13 +46,6 @@ $border: 2px solid #e4e4e4;
     height: 24px;
     line-height: 24px;
     font-weight: 600;
-    &-editor {
-      cursor: pointer;
-      border-bottom: 1px solid #e4e4e4;
-      &:focus {
-        outline: none;
-      }
-    }
     &-button {
       position: absolute;
       top: $spacing-1;

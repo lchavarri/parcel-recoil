@@ -3,6 +3,7 @@ import { useRecoilValue } from "recoil";
 import { portWithId } from "../state/canvas";
 import { searchTermState } from "../state/search";
 import { Port } from "../types";
+import PortWidgetEditLabel from "./PortWidgetEditLabel";
 
 type Props = {
   portId: string;
@@ -30,7 +31,7 @@ const PortWidget = ({ portId }: Props) => {
   return (
     <div className={`port-widget ${hlClass}`}>
       <span className="port-widget-hitarea"></span>
-      {name}
+      <PortWidgetEditLabel portId={portId}></PortWidgetEditLabel>
     </div>
   );
 };

@@ -1,4 +1,5 @@
-import { DBCanvas, NodeModel, Dict, Canvas, Port, DBNode } from "../types";
+import uuid4 from "uuid4";
+import { Canvas, DBCanvas, DBNode, Dict, NodeModel, Port } from "../types";
 import { extendDict } from "./utils";
 
 const mockDelay = (millis: number): Promise<any> => {
@@ -12,19 +13,19 @@ export const fetchCanvas = async (): Promise<DBCanvas> => {
   return {
     name: "Test Canvas",
     nodes: {
-      1: {
-        id: "1",
+      "db42e1bd-0ab5-4231-a392-015ab55e9ee7": {
+        id: "db42e1bd-0ab5-4231-a392-015ab55e9ee7",
         name: "Node One",
         ports: {
-          p1: {
-            id: "p1",
+          "52400ad6-363f-4bd9-98d8-a7cb7a4b4945": {
+            id: "52400ad6-363f-4bd9-98d8-a7cb7a4b4945",
             name: "Port One",
             type: "number",
           },
         },
       },
-      2: {
-        id: "2",
+      "11a17753-55df-48ca-8898-c7819a732200": {
+        id: "11a17753-55df-48ca-8898-c7819a732200",
         name: "Node Two",
         ports: {},
       },
@@ -35,22 +36,16 @@ export const fetchCanvas = async (): Promise<DBCanvas> => {
 export const createNode = async (): Promise<DBNode> => {
   await mockDelay(100);
   return {
-    id: Math.ceil(Math.random() * 100).toString(),
+    id: uuid4(),
     name: "New Node",
-    ports: {
-      p4: {
-        id: "p4",
-        name: "Port four",
-        type: "string",
-      },
-    },
+    ports: {},
   };
 };
 
 export const createPort = async (): Promise<Port> => {
   await mockDelay(100);
   return {
-    id: "p" + Math.ceil(Math.random() * 100),
+    id: uuid4(),
     name: "New Port",
     type: "string",
   };

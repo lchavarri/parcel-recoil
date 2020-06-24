@@ -39,3 +39,11 @@ $hit-area-3: 30px;
     border-color: #424242;
   }
 }
+
+.content-editable {
+  cursor: pointer;
+  border-bottom: 1px solid #e4e4e4;
+  &:focus {
+    outline: none;
+  }
+}
